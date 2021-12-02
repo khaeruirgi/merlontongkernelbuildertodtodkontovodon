@@ -35,7 +35,9 @@ export KERNELNAME=KucingKernel
 export KBUILD_BUILD_USER=kucingabu # Change with your own name or else.
 export KBUILD_BUILD_HOST=serverlelet # Change with your own hostname.
 IMAGE=$(pwd)/$device_codename/out/arch/arm64/boot/Image.gz
-export KBUILD_COMPILER_STRING="$("$ClangPath"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
+CLANG_VER="$("$ClangPath"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
+LLD_VER="$("$ClangPath"/bin/ld.lld --version | head -n 1)"
+export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
 DATE=$(date +"%F-%S")
 START=$(date +"%s")
 PATH=${ClangPath}/bin:${GCCaPath}/bin:${GCCbPath}/bin:${PATH}
@@ -62,7 +64,7 @@ make -j$(nproc) O=out ARCH=arm64 $kernel_defconfig
 make -j$(nproc) ARCH=arm64 O=out \
     CC=clang \
     AS=llvm-as \
-    LD_LIBRARY_PATH="${ClangPath}/lib:${LD_LIBRARY_PATH}" \
+    LD=ld.lld \
     NM=llvm-nm \
     OBJCOPY=llvm-objcopy \
     OBJDUMP=llvm-objdump \
