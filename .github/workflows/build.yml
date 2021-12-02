@@ -17,7 +17,7 @@ jobs:
       - name: Build Kernel
         run: |
           export token=${TELEGRAM_BOT_TOKEN}
-          bash cannon-build.sh
+          bash build.sh
         env:
           TOKEN: ${{ secrets.TOKEN }}
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
