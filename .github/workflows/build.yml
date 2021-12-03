@@ -1,5 +1,5 @@
 
-name: Kernel Build CI
+name: Kucing Kernel Builder
 
 on:
   push:
