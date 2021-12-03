@@ -13,7 +13,7 @@ GCCbPath="${MainPath}/GCC32"
 MainZipGCCaPath="${MainPath}/GCC64-zip"
 MainZipGCCbPath="${MainPath}/GCC32-zip"
 
-    git clone $kernel_source $device_codename
+git clone $KERNEL_SOURCE $DEVICE_CODENAME
 
 ClangPath=${MainClangZipPath}
 [[ "$(pwd)" != "${MainPath}" ]] && cd "${MainPath}"
@@ -30,19 +30,19 @@ wget -q https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/ar
 tar -xf gcc32.tar.gz -C $GCCbPath
 
 #Main2
-KERNEL_ROOTDIR=$(pwd)/$device_codename # IMPORTANT ! Fill with your kernel source root directory.
+KERNEL_ROOTDIR=$(pwd)/$DEVICE_CODENAME # IMPORTANT ! Fill with your kernel source root directory.
 export KERNELNAME=KucingKernel
 export KBUILD_BUILD_USER=kucingabu # Change with your own name or else.
 export KBUILD_BUILD_HOST=serverlelet # Change with your own hostname.
-IMAGE=$(pwd)/$device_codename/out/arch/arm64/boot/Image.gz
+IMAGE=$(pwd)/$DEVICE_CODENAME/out/arch/arm64/boot/Image.gz
 CLANG_VER="$("$ClangPath"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 LLD_VER="$("$ClangPath"/bin/ld.lld --version | head -n 1)"
 export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
 DATE=$(date +"%F-%S")
 START=$(date +"%s")
 PATH=${ClangPath}/bin:${GCCaPath}/bin:${GCCbPath}/bin:${PATH}
-DTB=$(pwd)/$device_codename/out/arch/arm64/boot/dts/mediatek/mt6768.dtb
-DTBO=$(pwd)/$device_codename/out/arch/arm64/boot/dtbo.img
+DTB=$(pwd)/$DEVICE_CODENAME/out/arch/arm64/boot/dts/mediatek/mt6768.dtb
+DTBO=$(pwd)/$DEVICE_CODENAME/out/arch/arm64/boot/dtbo.img
 
 # Telegram
 export BOT_MSG_URL="https://api.telegram.org/bot$TG_TOKEN/sendMessage"
@@ -60,7 +60,7 @@ compile(){
 cd ${KERNEL_ROOTDIR}
 export HASH_HEAD=$(git rev-parse --short HEAD)
 export COMMIT_HEAD=$(git log --oneline -1)
-make -j$(nproc) O=out ARCH=arm64 $kernel_defconfig
+make -j$(nproc) O=out ARCH=arm64 $KERNEL_DEFCONFIG
 make -j$(nproc) ARCH=arm64 O=out \
     CC=clang \
     AS=llvm-as \
