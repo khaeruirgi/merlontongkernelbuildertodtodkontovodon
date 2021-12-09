@@ -30,6 +30,7 @@ wget -q https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/ar
 tar -xf gcc32.tar.gz -C $GCCbPath
 
 #Main2
+export TZ="Asia/Jakarta"
 KERNEL_ROOTDIR=$(pwd)/$DEVICE_CODENAME # IMPORTANT ! Fill with your kernel source root directory.
 export KERNELNAME=KucingKernel
 export KBUILD_BUILD_USER=kucingabu # Change with your own name or else.
